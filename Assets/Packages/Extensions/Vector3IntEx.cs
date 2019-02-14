@@ -14,28 +14,4 @@ public static class Vector3IntEx
     public static readonly Vector3Int Zero    = new Vector3Int(0,  0,  0);
 
     #endregion Field
-
-    #region Method
-
-    public static Vector3Int Random(int min, int max)
-    {
-        return new Vector3Int()
-        {
-            x = UnityEngine.Random.Range(min, max),
-            y = UnityEngine.Random.Range(min, max),
-            z = UnityEngine.Random.Range(min, max),
-        };
-    }
-
-    public static Vector3Int Random(Vector3Int min, Vector3Int max)
-    {
-        return new Vector3Int()
-        {
-            x = UnityEngine.Random.Range(min.x, max.x),
-            y = UnityEngine.Random.Range(min.y, max.y),
-            z = UnityEngine.Random.Range(min.z, max.z),
-        };
-    }
-
-    #endregion Method
 }

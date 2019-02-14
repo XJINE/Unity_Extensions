@@ -9,109 +9,35 @@ public static class BoundsEx
         return bounds1.Contains(bounds2.min) && bounds1.Contains(bounds2.max);
     }
 
-    #region Get Point
-
-    public static Vector3 GetRandomPoint(this Bounds bounds)
+    public static Vector3 GetClosestCorner(this Bounds bounds, Vector3 point)
     {
-        return Vector3Ex.Random(bounds.min, bounds.max);
-    }
+        // NOTE:
+        // Calc a midpoint and check the value is greater or not.
 
-    public static Vector3[] GetCornerPoints(this Bounds bounds)
-    {
-        return new Vector3[]
-        {
-            GetFrontTopLeftPoint(bounds),
-            GetFrontTopRightPoint(bounds),
-            GetFrontBottomLeftPoint(bounds),
-            GetFrontBottomRightPoint(bounds),
-            GetBackTopLeftPoint(bounds),
-            GetBackTopRightPoint(bounds),
-            GetBackBottomLeftPoint(bounds),
-            GetBackBottomRightPoint(bounds),
-        };
-    }
+        Vector3 min = bounds.min;
+        Vector3 max = bounds.max;
 
-    private static Vector3 GetFrontTopLeftPoint(this Bounds bounds)
-    {
         return new Vector3()
         {
-            x = bounds.center.x - bounds.extents.x,
-            y = bounds.center.y + bounds.extents.y,
-            z = bounds.center.z - bounds.extents.z,
+            x = (min.x + max.x) / 2 < point.x ? max.x : min.x,
+            y = (min.y + max.y) / 2 < point.y ? max.y : min.y,
+            z = (min.z + max.z) / 2 < point.z ? max.z : min.z,
         };
     }
 
-    private static Vector3 GetFrontTopRightPoint(this Bounds bounds)
+    public static Vector3 GetClosestEdge(this Bounds bounds, Vector3 point)
     {
-        return new Vector3()
-        {
-            x = bounds.center.x + bounds.extents.x,
-            y = bounds.center.y + bounds.extents.y,
-            z = bounds.center.z - bounds.extents.z,
-        };
-    }
+        Vector3 closestCorner = GetClosestCorner(bounds, point);
 
-    private static Vector3 GetFrontBottomLeftPoint(this Bounds bounds)
-    {
-        return new Vector3()
+        if (Mathf.Abs(closestCorner.x - point.x) < Mathf.Abs(closestCorner.y - point.y))
         {
-            x = bounds.center.x - bounds.extents.x,
-            y = bounds.center.y - bounds.extents.y,
-            z = bounds.center.z - bounds.extents.z,
-        };
-    }
-
-    private static Vector3 GetFrontBottomRightPoint(this Bounds bounds)
-    {
-        return new Vector3()
+            return new Vector3(closestCorner.x, point.y, point.z);
+        }
+        else
         {
-            x = bounds.center.x + bounds.extents.x,
-            y = bounds.center.y - bounds.extents.y,
-            z = bounds.center.z - bounds.extents.z,
-        };
+            return new Vector3(point.x, closestCorner.y, point.z);
+        }
     }
-
-    private static Vector3 GetBackTopLeftPoint(this Bounds bounds)
-    {
-        return new Vector3()
-        {
-            x = bounds.center.x - bounds.extents.x,
-            y = bounds.center.y + bounds.extents.y,
-            z = bounds.center.z + bounds.extents.z,
-        };
-    }
-
-    private static Vector3 GetBackTopRightPoint(this Bounds bounds)
-    {
-        return new Vector3()
-        {
-            x = bounds.center.x + bounds.extents.x,
-            y = bounds.center.y + bounds.extents.y,
-            z = bounds.center.z + bounds.extents.z,
-        };
-    }
-
-    private static Vector3 GetBackBottomLeftPoint(this Bounds bounds)
-    {
-        return new Vector3()
-        {
-            x = bounds.center.x - bounds.extents.x,
-            y = bounds.center.y - bounds.extents.y,
-            z = bounds.center.z + bounds.extents.z,
-        };
-    }
-
-    private static Vector3 GetBackBottomRightPoint(this Bounds bounds)
-    {
-        return new Vector3()
-        {
-            x = bounds.center.x + bounds.extents.x,
-            y = bounds.center.y - bounds.extents.y,
-            z = bounds.center.z + bounds.extents.z,
-        };
-    }
-
-    #endregion Get Point
 
     #endregion Extension
 }

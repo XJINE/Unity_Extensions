@@ -38,31 +38,4 @@ public static class GizmosEx
         Gizmos.DrawRay(from + direction, up    * headLength);
         Gizmos.DrawRay(from + direction, down  * headLength);
     }
-
-    #region Save / Load
-
-    private static Color     CachedGizmoColor;
-    private static Matrix4x4 CachedGizmoMatrix;
-
-    public static void SaveColor()
-    {
-        GizmosEx.CachedGizmoColor = Gizmos.color;
-    }
-
-    public static void LoadColor()
-    {
-        Gizmos.color = GizmosEx.CachedGizmoColor;
-    }
-
-    public static void SaveMatrix()
-    {
-        GizmosEx.CachedGizmoMatrix = Gizmos.matrix;
-    }
-
-    public static void LoadMatrix()
-    {
-        Gizmos.matrix = GizmosEx.CachedGizmoMatrix;
-    }
-
-    #endregion Save / Load
 }
