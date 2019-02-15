@@ -4,9 +4,9 @@ public static class BoundsEx
 {
     #region Extension
 
-    public static bool Contains(this Bounds bounds1, Bounds bounds2)
+    public static bool Contains(this Bounds bounds, Bounds other)
     {
-        return bounds1.Contains(bounds2.min) && bounds1.Contains(bounds2.max);
+        return bounds.Contains(other.min) && bounds.Contains(other.max);
     }
 
     public static Vector3 GetClosestCorner(this Bounds bounds, Vector3 point)

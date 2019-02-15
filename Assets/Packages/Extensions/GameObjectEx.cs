@@ -2,14 +2,31 @@
 
 public static class GameObjectEx
 {
-    public static void RemoveComponent<T>(this GameObject self) where T : Component
+    #region Field
+
+    private static int NameIdColor;
+
+    #endregion Field
+
+    #region Constructor
+
+    static GameObjectEx()
     {
-        GameObject.Destroy(self.GetComponent<T>());
+        GameObjectEx.NameIdColor = Shader.PropertyToID("_Color");
     }
 
-    public static void RemoveAllComponent(this GameObject self)
+    #endregion Constructor
+
+    #region Extension
+
+    public static void RemoveComponent<T>(this GameObject gameObject) where T : Component
     {
-        Component[] components = self.GetComponents<Component>();
+        GameObject.Destroy(gameObject.GetComponent<T>());
+    }
+
+    public static void RemoveAllComponent(this GameObject gameObject)
+    {
+        Component[] components = gameObject.GetComponents<Component>();
 
         for (int i = 0; i < components.Length; i++)
         {
@@ -17,16 +34,18 @@ public static class GameObjectEx
         }
     }
 
-    public static void SetColor(this GameObject self, Color color)
+    public static void SetColor(this GameObject gameObject, Color color)
     {
         MaterialPropertyBlock materialPropertyBlock = new MaterialPropertyBlock();
 
-        Renderer renderer = self.GetComponent<Renderer>();
+        Renderer renderer = gameObject.GetComponent<Renderer>();
 
         renderer.GetPropertyBlock(materialPropertyBlock);
 
-        materialPropertyBlock.SetColor("_Color", color);
+        materialPropertyBlock.SetColor(GameObjectEx.NameIdColor, color);
 
         renderer.SetPropertyBlock(materialPropertyBlock);
     }
+
+    #endregion Extension
 }

@@ -3,14 +3,10 @@
 Include some small extensions for Unity.
 
 - BoundsEx
-- ColorEx
 - GameObjectEx
 - GizmosEx
-- HSVColor
 - InputEx
 - MathfEx
-- ObjectEx
-- RayEx
 - RectEx
 - Vector2Ex
 - Vector3Ex
