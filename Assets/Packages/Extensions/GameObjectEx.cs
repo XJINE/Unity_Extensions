@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public static class GameObjectEx
 {
@@ -45,6 +47,26 @@ public static class GameObjectEx
         materialPropertyBlock.SetColor(GameObjectEx.NameIdColor, color);
 
         renderer.SetPropertyBlock(materialPropertyBlock);
+    }
+
+    public static T[] FindObjectsOfType<T>(bool includeInactive = true) where T : Object
+    {
+        const bool INCLUDE_INACTIVE = true;
+
+        if (includeInactive)
+        {
+            List<T>      typeObjects = new List<T>();
+            GameObject[] gameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
+
+            foreach (GameObject gameObject in gameObjects)
+            {
+                typeObjects.AddRange(gameObject.GetComponentsInChildren<T>(INCLUDE_INACTIVE));
+            }
+
+            return typeObjects.ToArray();
+        }
+
+        return GameObject.FindObjectsOfType<T>();
     }
 
     #endregion Extension
